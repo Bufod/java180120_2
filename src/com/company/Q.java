@@ -19,8 +19,17 @@ public class Q {
         return n;
     }
     synchronized void put(int n){
+        while (valueSet){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         this.n = n;
+        valueSet = true;
         System.out.println("Отправлено: "
                 + n);
+        notify();
     }
 }
